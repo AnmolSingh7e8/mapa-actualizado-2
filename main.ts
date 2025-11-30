@@ -16,6 +16,6 @@ let mySprite = sprites.create(img`
     . . . f f f f f f f f . . . . . 
     . . . . . f f . . f f . . . . . 
     `, SpriteKind.Player)
-tiles.setCurrentTilemap(tilemap`m`)
+tiles.setCurrentTilemap(tilemap`mapa`)
 controller.moveSprite(mySprite, 100, 100)
 scene.cameraFollowSprite(mySprite)
