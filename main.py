@@ -10,21 +10,67 @@ def on_on_overlap(proyectil2, enemigo2):
         game.over(True)
 sprites.on_overlap(SpriteKind.projectile, SpriteKind.enemy, on_on_overlap)
 
-def on_up_pressed():
+def Abrir_Cofre():
+    global ubicacion, columna, fila, cofre_abierto, municion_actual
+    ubicacion = personaje.tilemap_location()
+    columna = ubicacion.column
+    fila = ubicacion.row
+    if ultima_direccion == "arriba" and personaje.tile_kind_at(TileDirection.TOP, assets.tile("""
+        cofre_abajo
+        """)):
+        tiles.set_tile_at(tiles.get_tile_location(columna, fila - 1),
+            assets.tile("""
+                cofre_arriba
+                """))
+        cofre_abierto = True
+    elif ultima_direccion == "abajo" and personaje.tile_kind_at(TileDirection.BOTTOM,
+        assets.tile("""
+            cofre_abajo
+            """)):
+        tiles.set_tile_at(tiles.get_tile_location(columna, fila + 1),
+            assets.tile("""
+                cofre_arriba
+                """))
+        cofre_abierto = True
+    elif ultima_direccion == "izquierda" and personaje.tile_kind_at(TileDirection.LEFT, assets.tile("""
+        cofre_abajo
+        """)):
+        tiles.set_tile_at(tiles.get_tile_location(columna - 1, fila),
+            assets.tile("""
+                cofre_arriba
+                """))
+        cofre_abierto = True
+    elif ultima_direccion == "derecha" and personaje.tile_kind_at(TileDirection.RIGHT,
+        assets.tile("""
+            cofre_abajo
+            """)):
+        tiles.set_tile_at(tiles.get_tile_location(columna + 1, fila),
+            assets.tile("""
+                cofre_arriba
+                """))
+        cofre_abierto = True
+    if cofre_abierto:
+        municion_actual += municion_actual + 15
+        game.splash("Cofre abierto!", "+30 municion")
+        cofre_abierto = False
+    else:
+        game.splash("No hay cofre")
+
+def on_down_pressed():
     animation.run_image_animation(personaje,
         assets.animation("""
-            animado_arriba
+            animado_abajo
             """),
         200,
         True)
-controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
+controller.down.on_event(ControllerButtonEvent.PRESSED, on_down_pressed)
 
 def disparar():
     global municion_actual
     if municion_actual > 0:
         municion_actual += 0 - 1
         proyectil = sprites.create_projectile_from_sprite(assets.image("""
-            proyectil
+            proyectil1
             """), personaje, 0, 0)
         if ultima_direccion == "arriba":
             proyectil.set_velocity(0, -150)
@@ -37,9 +83,14 @@ def disparar():
         proyectil.set_flag(SpriteFlag.AUTO_DESTROY, True)
         proyectil.lifespan = 2000
 
-def on_a_pressed():
-    disparar()
-controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
+def on_right_pressed():
+    animation.run_image_animation(personaje,
+        assets.animation("""
+            animado_der
+            """),
+        200,
+        True)
+controller.right.on_event(ControllerButtonEvent.PRESSED, on_right_pressed)
 
 def on_left_pressed():
     animation.run_image_animation(personaje,
@@ -50,6 +101,14 @@ def on_left_pressed():
         True)
 controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
 
+def on_a_pressed():
+    disparar()
+controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
+
+def on_b_pressed():
+    Abrir_Cofre()
+controller.B.on_event(ControllerButtonEvent.PRESSED, on_b_pressed)
+
 def spawnear_npcs():
     global npcs_vivos
     lista_npcs: List[Sprite] = []
@@ -58,38 +117,33 @@ def spawnear_npcs():
             enemigo1
             """), SpriteKind.enemy)
         tiles.place_on_random_tile(enemigo, assets.tile("""
-            myTile6
+            transparency16
             """))
         lista_npcs.append(enemigo)
         enemigo.follow(personaje, 30)
     npcs_vivos = len(lista_npcs)
 
-def on_right_pressed():
+def on_up_pressed():
     animation.run_image_animation(personaje,
         assets.animation("""
-            animado_der
+            animado_arriba
             """),
         200,
         True)
-controller.right.on_event(ControllerButtonEvent.PRESSED, on_right_pressed)
-
-def on_down_pressed():
-    animation.run_image_animation(personaje,
-        assets.animation("""
-            animado_abajo
-            """),
-        200,
-        True)
-controller.down.on_event(ControllerButtonEvent.PRESSED, on_down_pressed)
+controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
 
 moviendo = False
+cofre_abierto = False
+fila = 0
+columna = 0
+ubicacion: tiles.Location = None
 npcs_vivos = 0
 kills = 0
 personaje: Sprite = None
 ultima_direccion = ""
 municion_actual = 0
-arma_actual = 0
 partida_activa = False
+arma_actual = 0
 vida_jugador = 100
 municion_actual = 150
 radio_tormenta = 200
@@ -107,7 +161,7 @@ tiles.set_current_tilemap(tilemap("""
     mapa
     """))
 tiles.place_on_random_tile(personaje, assets.tile("""
-    myTile6
+    transparency16
     """))
 info.set_score(0)
 info.set_life(vida_jugador)

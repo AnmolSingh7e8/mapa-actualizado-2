@@ -49,8 +49,6 @@ namespace myTiles {
     //% fixedInstance jres blockIdentity=images._tile
     export const tile25 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
-    export const tile26 = image.ofBuffer(hex``);
-    //% fixedInstance jres blockIdentity=images._tile
     export const tile27 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
     export const tile28 = image.ofBuffer(hex``);
@@ -102,6 +100,10 @@ namespace myTiles {
     export const tile48 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
     export const tile50 = image.ofBuffer(hex``);
+    //% fixedInstance jres blockIdentity=images._tile
+    export const tile51 = image.ofBuffer(hex``);
+    //% fixedInstance jres blockIdentity=images._tile
+    export const tile26 = image.ofBuffer(hex``);
 
     helpers._registerFactory("tilemap", function(name: string) {
         switch(helpers.stringTrim(name)) {
@@ -227,7 +229,7 @@ namespace myTiles {
 22.222222222222222222222222.2222222222222222222222222222222222222.222222222.22222222222.2222222.222222222.2222222.222222
 2222222.2222222222.222222222.22222.22222222.22222222222.22222222.2222222222.222222222222222222222222222222222222.2222222
 2222222222222222.222222222222222222222222222.222222222222222222222222222222222222222222222222222222222222222222222222222
-`, [myTiles.transparency16,sprites.skillmap.islandTile0,sprites.skillmap.islandTile3,sprites.skillmap.islandTile1,sprites.skillmap.islandTile5,sprites.skillmap.islandTile4,myTiles.tile1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,myTiles.tile8,myTiles.tile10,myTiles.tile11,myTiles.tile13,myTiles.tile14,myTiles.tile15,myTiles.tile16,myTiles.tile18,myTiles.tile19,myTiles.tile20,myTiles.tile21,sprites.castle.tilePath2,sprites.castle.tilePath1,myTiles.tile23,sprites.castle.tilePath7,sprites.castle.tilePath4,sprites.castle.tilePath3,sprites.castle.tilePath9,sprites.castle.tilePath6,sprites.castle.tilePath8,myTiles.tile25,myTiles.tile26,myTiles.tile27,myTiles.tile28,myTiles.tile29,myTiles.tile30,myTiles.tile31,myTiles.tile34,myTiles.tile35,myTiles.tile36,myTiles.tile37,myTiles.tile38,myTiles.tile41,myTiles.tile43,myTiles.tile44,myTiles.tile45,myTiles.tile24,myTiles.tile39,myTiles.tile46,myTiles.tile42,myTiles.tile50], TileScale.Sixteen);
+`, [myTiles.transparency16,sprites.skillmap.islandTile0,sprites.skillmap.islandTile3,sprites.skillmap.islandTile1,sprites.skillmap.islandTile5,sprites.skillmap.islandTile4,myTiles.tile1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,myTiles.tile8,myTiles.tile10,myTiles.tile11,myTiles.tile13,myTiles.tile14,myTiles.tile15,myTiles.tile16,myTiles.tile18,myTiles.tile19,myTiles.tile20,myTiles.tile21,sprites.castle.tilePath2,sprites.castle.tilePath1,myTiles.tile23,sprites.castle.tilePath7,sprites.castle.tilePath4,sprites.castle.tilePath3,sprites.castle.tilePath9,sprites.castle.tilePath6,sprites.castle.tilePath8,myTiles.tile25,myTiles.tile26,myTiles.tile27,myTiles.tile28,myTiles.tile29,myTiles.tile30,myTiles.tile31,myTiles.tile34,myTiles.tile35,myTiles.tile36,myTiles.tile37,myTiles.tile38,myTiles.tile41,myTiles.tile43,myTiles.tile44,myTiles.tile45,myTiles.tile24,myTiles.tile39,myTiles.tile46,myTiles.tile42,myTiles.tile50,myTiles.tile51], TileScale.Sixteen);
         }
         return null;
     })
@@ -281,8 +283,6 @@ namespace myTiles {
             case "tile24":return tile24;
             case "myTile21":
             case "tile25":return tile25;
-            case "myTile22":
-            case "tile26":return tile26;
             case "myTile23":
             case "tile27":return tile27;
             case "myTile24":
@@ -335,6 +335,10 @@ namespace myTiles {
             case "tile48":return tile48;
             case "myTile44":
             case "tile50":return tile50;
+            case "cofre_arriba":
+            case "tile51":return tile51;
+            case "cofre_abajo":
+            case "tile26":return tile26;
         }
         return null;
     })

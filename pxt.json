@@ -2,7 +2,9 @@
     "name": "mapa actualizado #4",
     "description": "",
     "dependencies": {
-        "device": "*"
+        "device": "*",
+        "controller": "*",
+        "arcade-minimap": "github:microsoft/arcade-minimap#master"
     },
     "files": [
         "main.blocks",
@@ -25,5 +27,5 @@
     "supportedTargets": [
         "arcade"
     ],
-    "preferredEditor": "pyprj"
+    "preferredEditor": "blocksprj"
 }

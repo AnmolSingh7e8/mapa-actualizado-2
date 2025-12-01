@@ -142,12 +142,6 @@
         "tilemapTile": true,
         "displayName": "myTile21"
     },
-    "tile26": {
-        "data": "hwQQABAAAAB3u7u7y7y7e7fu7u677M6760Tk7rvs7rtLRETuu+zue0tERO677O57S0RE7rvs7ntLRETuu8vue0tERO7NvO57S0RE7s287ntLRETuu8vue0tERO677O57S0RE7rvs7ntLRETuu+zue+tE5O677O67t+7u7rvszrt3u7u7y7y7ew==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true,
-        "displayName": "myTile22"
-    },
     "tile27": {
         "data": "hwQQABAAAAC3u8u8u7u7d7vszrvu7u57u+7Ou+5ORL637s677kREtLfuzrvuRES0t+7Ou+5ERLS37ry77kREtLfuy9zuRES0t+7L3O5ERLS37ry77kREtLfuzrvuRES0t+7Ou+5ERLS37s677kREtLvuzrvuTkS+u+zOu+7u7nu3u8u8u7u7dw==",
         "mimeType": "image/x-mkcd-f4",
@@ -304,6 +298,18 @@
         "tilemapTile": true,
         "displayName": "myTile44"
     },
+    "tile51": {
+        "data": "hwQQABAAAACwuwu7u7u7C+vuu8zM6867S+S7zMzr7rtLRLvMzOvuC0tEu8zM6+4LS0S7zMzr7gtLRLvLzOvuC0tEzbzM6+4LS0TNvMzr7gtLRLvLzOvuC0tEu8zM6+4LS0S7zMzr7gtLRLvMzOvuC0vku8zM6+67S+67zMzrzruwuwu7u7u7Cw==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "cofre_arriba"
+    },
+    "tile26": {
+        "data": "hwQQABAAAAB3u7u7y7y7e7fu7u677M6760Tk7rvs7rtLRETuu+zue0tERO677O57S0RE7rvs7ntLRETuu8vue0tERO7NvO57S0RE7s287ntLRETuu8vue0tERO677O57S0RE7rvs7ntLRETuu+zue+tE5O677O67t+7u7rvszrt3u7u7y7y7ew==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "cofre_abajo"
+    },
     "level2": {
         "id": "level2",
         "mimeType": "application/mkcd-tilemap",
@@ -362,7 +368,8 @@
             "myTiles.tile39",
             "myTiles.tile46",
             "myTiles.tile42",
-            "myTiles.tile50"
+            "myTiles.tile50",
+            "myTiles.tile51"
         ],
         "displayName": "mapa"
     },
