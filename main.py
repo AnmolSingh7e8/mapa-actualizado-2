@@ -1,0 +1,129 @@
+def on_on_overlap(proyectil2, enemigo2):
+    global kills, npcs_vivos
+    sprites.destroy(proyectil2)
+    sprites.destroy(enemigo2, effects.fire, 200)
+    kills += 1
+    npcs_vivos += 0 - 1
+    info.change_score_by(1)
+    if npcs_vivos == 0:
+        game.splash("VICTORY ROYALE!", "Kills: " + ("" + str(kills)))
+        game.over(True)
+sprites.on_overlap(SpriteKind.projectile, SpriteKind.enemy, on_on_overlap)
+
+def on_up_pressed():
+    animation.run_image_animation(personaje,
+        assets.animation("""
+            animado_arriba
+            """),
+        200,
+        True)
+controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
+
+def disparar():
+    global municion_actual
+    if municion_actual > 0:
+        municion_actual += 0 - 1
+        proyectil = sprites.create_projectile_from_sprite(assets.image("""
+            proyectil
+            """), personaje, 0, 0)
+        if ultima_direccion == "arriba":
+            proyectil.set_velocity(0, -150)
+        elif ultima_direccion == "abajo":
+            proyectil.set_velocity(0, 150)
+        elif ultima_direccion == "izquierda":
+            proyectil.set_velocity(-150, 0)
+        elif ultima_direccion == "derecha":
+            proyectil.set_velocity(150, 0)
+        proyectil.set_flag(SpriteFlag.AUTO_DESTROY, True)
+        proyectil.lifespan = 2000
+
+def on_a_pressed():
+    disparar()
+controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
+
+def on_left_pressed():
+    animation.run_image_animation(personaje,
+        assets.animation("""
+            animado_izq
+            """),
+        200,
+        True)
+controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
+
+def spawnear_npcs():
+    global npcs_vivos
+    lista_npcs: List[Sprite] = []
+    for index in range(20):
+        enemigo = sprites.create(assets.image("""
+            enemigo1
+            """), SpriteKind.enemy)
+        tiles.place_on_random_tile(enemigo, assets.tile("""
+            myTile6
+            """))
+        lista_npcs.append(enemigo)
+        enemigo.follow(personaje, 30)
+    npcs_vivos = len(lista_npcs)
+
+def on_right_pressed():
+    animation.run_image_animation(personaje,
+        assets.animation("""
+            animado_der
+            """),
+        200,
+        True)
+controller.right.on_event(ControllerButtonEvent.PRESSED, on_right_pressed)
+
+def on_down_pressed():
+    animation.run_image_animation(personaje,
+        assets.animation("""
+            animado_abajo
+            """),
+        200,
+        True)
+controller.down.on_event(ControllerButtonEvent.PRESSED, on_down_pressed)
+
+moviendo = False
+npcs_vivos = 0
+kills = 0
+personaje: Sprite = None
+ultima_direccion = ""
+municion_actual = 0
+arma_actual = 0
+partida_activa = False
+vida_jugador = 100
+municion_actual = 150
+radio_tormenta = 200
+centro_tormenta_x = 160
+centro_tormenta_y = 120
+tiempo_siguiente_cierre = 30
+en_bus = True
+ultima_direccion = "derecha"
+personaje = sprites.create(assets.image("""
+    personaje
+    """), SpriteKind.player)
+scene.camera_follow_sprite(personaje)
+controller.move_sprite(personaje, 100, 100)
+tiles.set_current_tilemap(tilemap("""
+    mapa
+    """))
+tiles.place_on_random_tile(personaje, assets.tile("""
+    myTile6
+    """))
+info.set_score(0)
+info.set_life(vida_jugador)
+spawnear_npcs()
+
+def on_on_update():
+    global moviendo, ultima_direccion
+    moviendo = controller.down.is_pressed() or (controller.left.is_pressed() or (controller.up.is_pressed() or controller.right.is_pressed()))
+    if controller.up.is_pressed():
+        ultima_direccion = "arriba"
+    elif controller.down.is_pressed():
+        ultima_direccion = "abajo"
+    elif controller.left.is_pressed():
+        ultima_direccion = "izquierda"
+    elif controller.right.is_pressed():
+        ultima_direccion = "derecha"
+    if not (moviendo):
+        animation.stop_animation(animation.AnimationTypes.ALL, personaje)
+game.on_update(on_on_update)
