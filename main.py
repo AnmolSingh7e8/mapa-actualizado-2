@@ -14,13 +14,26 @@ def on_on_overlap(proyectil2, enemigo2):
         game.over(True)
 sprites.on_overlap(SpriteKind.projectile, SpriteKind.enemy, on_on_overlap)
 
+def on_up_pressed():
+    animation.run_image_animation(personaje,
+        assets.animation("""
+            animado_arriba
+            """),
+        200,
+        True)
+controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
+
 def on_on_overlap2(jugador, bala_mala):
     sprites.destroy(bala_mala)
     scene.camera_shake(4, 500)
     info.change_life_by(-10)
 sprites.on_overlap(SpriteKind.player, SpriteKind.BalaEnemiga, on_on_overlap2)
 
-def Abrir_Cofre():
+def on_b_pressed():
+    Abrir_Cofre()
+controller.B.on_event(ControllerButtonEvent.PRESSED, on_b_pressed)
+
+def Abrir_Cofre2():
     global ubicacion, col, fila, cofre_abierto, municion_actual
     ubicacion = personaje.tilemap_location()
     col = ubicacion.column
@@ -65,16 +78,49 @@ def Abrir_Cofre():
         cofre_abierto = False
     else:
         game.splash("No hay cofre")
-
-def on_down_pressed():
-    animation.run_image_animation(personaje,
-        assets.animation("""
-            animado_abajo
-            """),
-        200,
-        True)
-controller.down.on_event(ControllerButtonEvent.PRESSED, on_down_pressed)
-
+def Abrir_Cofre():
+    global ubicacion, col, fila, cofre_abierto, municion_actual
+    ubicacion = personaje.tilemap_location()
+    col = ubicacion.column
+    fila = ubicacion.row
+    if ultima_direccion == "arriba" and personaje.tile_kind_at(TileDirection.TOP, assets.tile("""
+        myTile23
+        """)):
+        tiles.set_tile_at(tiles.get_tile_location(col, fila - 1),
+            assets.tile("""
+                cofre_arriba
+                """))
+        cofre_abierto = True
+    elif ultima_direccion == "abajo" and personaje.tile_kind_at(TileDirection.BOTTOM, assets.tile("""
+        myTile23
+        """)):
+        tiles.set_tile_at(tiles.get_tile_location(col, fila + 1),
+            assets.tile("""
+                cofre_arriba
+                """))
+        cofre_abierto = True
+    elif ultima_direccion == "izquierda" and personaje.tile_kind_at(TileDirection.LEFT, assets.tile("""
+        myTile23
+        """)):
+        tiles.set_tile_at(tiles.get_tile_location(col - 1, fila),
+            assets.tile("""
+                cofre_arriba
+                """))
+        cofre_abierto = True
+    elif ultima_direccion == "derecha" and personaje.tile_kind_at(TileDirection.RIGHT, assets.tile("""
+        myTile23
+        """)):
+        tiles.set_tile_at(tiles.get_tile_location(col + 1, fila),
+            assets.tile("""
+                cofre_arriba
+                """))
+        cofre_abierto = True
+    if cofre_abierto:
+        municion_actual += 30
+        game.splash("Cofre abierto!", "+30 municion")
+        cofre_abierto = False
+    else:
+        game.splash("No hay cofre")
 def disparar():
     global municion_actual
     if municion_actual > 0:
@@ -93,14 +139,9 @@ def disparar():
         proyectil.set_flag(SpriteFlag.AUTO_DESTROY, True)
         proyectil.lifespan = 2000
 
-def on_right_pressed():
-    animation.run_image_animation(personaje,
-        assets.animation("""
-            animado_der
-            """),
-        200,
-        True)
-controller.right.on_event(ControllerButtonEvent.PRESSED, on_right_pressed)
+def on_a_pressed():
+    disparar()
+controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
 
 def on_left_pressed():
     animation.run_image_animation(personaje,
@@ -111,14 +152,6 @@ def on_left_pressed():
         True)
 controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
 
-def on_a_pressed():
-    disparar()
-controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
-
-def on_b_pressed():
-    Abrir_Cofre()
-controller.B.on_event(ControllerButtonEvent.PRESSED, on_b_pressed)
-
 def spawnear_npcs():
     global index, npcs_vivos
     lista_npcs: List[Sprite] = []
@@ -127,7 +160,7 @@ def spawnear_npcs():
             enemigo1
             """), SpriteKind.enemy)
         tiles.place_on_random_tile(enemigo, assets.tile("""
-            transparency16
+            myTile6
             """))
         enemigo.follow(personaje, 40)
         lista_npcs.append(enemigo)
@@ -138,7 +171,7 @@ def spawnear_npcs():
             enemigo2
             """), SpriteKind.enemy)
         tiles.place_on_random_tile(enemigo, assets.tile("""
-            transparency16
+            myTile8
             """))
         lista_npcs.append(enemigo)
         index += 1
@@ -148,7 +181,7 @@ def spawnear_npcs():
             enemigo3
             """), SpriteKind.enemy)
         tiles.place_on_random_tile(enemigo, assets.tile("""
-            transparency16
+            myTile8
             """))
         enemigo.set_velocity(50, 0)
         enemigo.set_bounce_on_wall(True)
@@ -156,14 +189,23 @@ def spawnear_npcs():
         index += 1
     npcs_vivos = len(lista_npcs)
 
-def on_up_pressed():
+def on_right_pressed():
     animation.run_image_animation(personaje,
         assets.animation("""
-            animado_arriba
+            animado_der
             """),
         200,
         True)
-controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
+controller.right.on_event(ControllerButtonEvent.PRESSED, on_right_pressed)
+
+def on_down_pressed():
+    animation.run_image_animation(personaje,
+        assets.animation("""
+            animado_abajo
+            """),
+        200,
+        True)
+controller.down.on_event(ControllerButtonEvent.PRESSED, on_down_pressed)
 
 moviendo = False
 index = 0
@@ -176,8 +218,8 @@ kills = 0
 personaje: Sprite = None
 ultima_direccion = ""
 municion_actual = 0
-partida_activa = False
 arma_actual = 0
+partida_activa = False
 vida_jugador = 100
 municion_actual = 150
 radio_tormenta = 200
@@ -195,7 +237,7 @@ tiles.set_current_tilemap(tilemap("""
     mapa
     """))
 tiles.place_on_random_tile(personaje, assets.tile("""
-    transparency16
+    myTile8
     """))
 info.set_score(0)
 info.set_life(vida_jugador)
@@ -220,7 +262,6 @@ def on_update_interval():
     for enemigo22 in sprites.all_of_kind(SpriteKind.enemy):
         if randint(0, 100) < 15:
             vx = personaje.x - enemigo22.x
-            vy = personaje.y - enemigo22.y
             bala = sprites.create_projectile_from_sprite(assets.image("""
                 proyectil1
                 """), enemigo22, vx, vy)

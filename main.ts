@@ -12,12 +12,23 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (proyectil2,
         game.over(true)
     }
 })
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+    animation.runImageAnimation(
+    personaje,
+    assets.animation`animado_arriba`,
+    200,
+    true
+    )
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.BalaEnemiga, function (jugador, bala_mala) {
     sprites.destroy(bala_mala)
     scene.cameraShake(4, 500)
     info.changeLifeBy(-10)
 })
-function Abrir_Cofre () {
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    Abrir_Cofre()
+})
+function Abrir_Cofre2 () {
     ubicacion = personaje.tilemapLocation()
     col = ubicacion.column
     fila = ubicacion.row
@@ -42,14 +53,31 @@ function Abrir_Cofre () {
         game.splash("No hay cofre")
     }
 }
-controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
-    animation.runImageAnimation(
-    personaje,
-    assets.animation`animado_abajo`,
-    200,
-    true
-    )
-})
+function Abrir_Cofre () {
+    ubicacion = personaje.tilemapLocation()
+    col = ubicacion.column
+    fila = ubicacion.row
+    if (ultima_direccion == "arriba" && personaje.tileKindAt(TileDirection.Top, assets.tile`myTile23`)) {
+        tiles.setTileAt(tiles.getTileLocation(col, fila - 1), assets.tile`cofre_abierto_arriba`)
+        cofre_abierto = true
+    } else if (ultima_direccion == "abajo" && personaje.tileKindAt(TileDirection.Bottom, assets.tile`myTile23`)) {
+        tiles.setTileAt(tiles.getTileLocation(col, fila + 1), assets.tile`cofre_abierto_arriba`)
+        cofre_abierto = true
+    } else if (ultima_direccion == "izquierda" && personaje.tileKindAt(TileDirection.Left, assets.tile`myTile23`)) {
+        tiles.setTileAt(tiles.getTileLocation(col - 1, fila), assets.tile`cofre_abierto_arriba`)
+        cofre_abierto = true
+    } else if (ultima_direccion == "derecha" && personaje.tileKindAt(TileDirection.Right, assets.tile`myTile23`)) {
+        tiles.setTileAt(tiles.getTileLocation(col + 1, fila), assets.tile`cofre_abierto_arriba`)
+        cofre_abierto = true
+    }
+    if (cofre_abierto) {
+        municion_actual += 30
+        game.splash("Cofre abierto!", "+30 municion")
+        cofre_abierto = false
+    } else {
+        game.splash("No hay cofre")
+    }
+}
 function disparar () {
     let proyectil: Sprite;
 if (municion_actual > 0) {
@@ -68,13 +96,8 @@ if (municion_actual > 0) {
         proyectil.lifespan = 2000
     }
 }
-controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-    animation.runImageAnimation(
-    personaje,
-    assets.animation`animado_der`,
-    200,
-    true
-    )
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    disparar()
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
@@ -83,12 +106,6 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     200,
     true
     )
-})
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    disparar()
-})
-controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    Abrir_Cofre()
 })
 function spawnear_npcs () {
     let lista_npcs: Sprite[] = []
@@ -118,10 +135,18 @@ while (index < 5) {
     }
     npcs_vivos = lista_npcs.length
 }
-controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
     personaje,
-    assets.animation`animado_arriba`,
+    assets.animation`animado_der`,
+    200,
+    true
+    )
+})
+controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
+    animation.runImageAnimation(
+    personaje,
+    assets.animation`animado_abajo`,
     200,
     true
     )
