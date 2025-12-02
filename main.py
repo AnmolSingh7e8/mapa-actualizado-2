@@ -88,7 +88,7 @@ def Abrir_Cofre():
         """)):
         tiles.set_tile_at(tiles.get_tile_location(col, fila - 1),
             assets.tile("""
-                cofre_arriba
+                cofre_abierto_arriba
                 """))
         cofre_abierto = True
     elif ultima_direccion == "abajo" and personaje.tile_kind_at(TileDirection.BOTTOM, assets.tile("""
@@ -96,7 +96,7 @@ def Abrir_Cofre():
         """)):
         tiles.set_tile_at(tiles.get_tile_location(col, fila + 1),
             assets.tile("""
-                cofre_arriba
+                cofre_abierto_arriba
                 """))
         cofre_abierto = True
     elif ultima_direccion == "izquierda" and personaje.tile_kind_at(TileDirection.LEFT, assets.tile("""
@@ -104,7 +104,7 @@ def Abrir_Cofre():
         """)):
         tiles.set_tile_at(tiles.get_tile_location(col - 1, fila),
             assets.tile("""
-                cofre_arriba
+                cofre_abierto_arriba
                 """))
         cofre_abierto = True
     elif ultima_direccion == "derecha" and personaje.tile_kind_at(TileDirection.RIGHT, assets.tile("""
@@ -112,7 +112,7 @@ def Abrir_Cofre():
         """)):
         tiles.set_tile_at(tiles.get_tile_location(col + 1, fila),
             assets.tile("""
-                cofre_arriba
+                cofre_abierto_arriba
                 """))
         cofre_abierto = True
     if cofre_abierto:
@@ -262,6 +262,7 @@ def on_update_interval():
     for enemigo22 in sprites.all_of_kind(SpriteKind.enemy):
         if randint(0, 100) < 15:
             vx = personaje.x - enemigo22.x
+            vy = 0
             bala = sprites.create_projectile_from_sprite(assets.image("""
                 proyectil1
                 """), enemigo22, vx, vy)

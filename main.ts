@@ -162,8 +162,8 @@ let kills = 0
 let personaje: Sprite = null
 let ultima_direccion = ""
 let municion_actual = 0
-let arma_actual = 0
 let partida_activa = false
+let arma_actual = 0
 let vida_jugador = 100
 municion_actual = 150
 let radio_tormenta = 200
@@ -202,6 +202,7 @@ let bala: Sprite;
 for (let enemigo22 of sprites.allOfKind(SpriteKind.Enemy)) {
         if (randint(0, 100) < 15) {
             vx = personaje.x - enemigo22.x
+            vy = 0
             bala = sprites.createProjectileFromSprite(assets.image`proyectil1`, enemigo22, vx, vy)
             bala.setKind(SpriteKind.BalaEnemiga)
             bala.lifespan = 3000
