@@ -127,7 +127,7 @@ def spawnear_npcs():
             enemigo1
             """), SpriteKind.enemy)
         tiles.place_on_random_tile(enemigo, assets.tile("""
-            transparency16
+            myTile6
             """))
         enemigo.follow(personaje, 40)
         lista_npcs.append(enemigo)
@@ -138,7 +138,7 @@ def spawnear_npcs():
             enemigo2
             """), SpriteKind.enemy)
         tiles.place_on_random_tile(enemigo, assets.tile("""
-            transparency16
+            myTile8
             """))
         lista_npcs.append(enemigo)
         index += 1
@@ -148,7 +148,7 @@ def spawnear_npcs():
             enemigo3
             """), SpriteKind.enemy)
         tiles.place_on_random_tile(enemigo, assets.tile("""
-            transparency16
+            myTile8
             """))
         enemigo.set_velocity(50, 0)
         enemigo.set_bounce_on_wall(True)
@@ -176,8 +176,8 @@ kills = 0
 personaje: Sprite = None
 ultima_direccion = ""
 municion_actual = 0
-partida_activa = False
 arma_actual = 0
+partida_activa = False
 vida_jugador = 100
 municion_actual = 150
 radio_tormenta = 200
@@ -195,7 +195,7 @@ tiles.set_current_tilemap(tilemap("""
     mapa
     """))
 tiles.place_on_random_tile(personaje, assets.tile("""
-    transparency16
+    myTile8
     """))
 info.set_score(0)
 info.set_life(vida_jugador)
@@ -220,7 +220,7 @@ def on_update_interval():
     for enemigo22 in sprites.all_of_kind(SpriteKind.enemy):
         if randint(0, 100) < 15:
             vx = personaje.x - enemigo22.x
-            vy = personaje.y - enemigo22.y
+            vy = 0
             bala = sprites.create_projectile_from_sprite(assets.image("""
                 proyectil1
                 """), enemigo22, vx, vy)

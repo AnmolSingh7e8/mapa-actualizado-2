@@ -310,6 +310,12 @@
         "tilemapTile": true,
         "displayName": "cofre_abajo"
     },
+    "tile52": {
+        "data": "hwQQABAAAACwu7u7u7C7C7vsvszMu+6+u+6+zMy7TrSw7r7MzLtEtLDuvszMu0S0sO6+zMy7RLSw7r7MvLtEtLDuvszL3ES0sO6+zMvcRLSw7r7MvLtEtLDuvszMu0S0sO6+zMy7RLSw7r7MzLtEtLvuvszMu060u+y+zMy77rSwu7u7u7C7Cw==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "cofre_abierto_arriba"
+    },
     "level2": {
         "id": "level2",
         "mimeType": "application/mkcd-tilemap",
