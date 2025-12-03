@@ -202,6 +202,28 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function on_down_pressed(
             animado_abajo
             `, 200, true)
 })
+function crear_autobus() {
+    let x_inicio: number;
+    let velocidad_x: number;
+    
+    en_bus = true
+    autobus = sprites.create(assets.image`autobus`, SpriteKind.Player)
+    if (randint(0, 1) == 0) {
+        x_inicio = -40
+        velocidad_x = 60
+    } else {
+        x_inicio = scene.screenWidth() * 16 + 40
+        velocidad_x = -60
+    }
+    
+    let y_inicio = randint(20, scene.screenHeight() * 16 - 20)
+    autobus.setPosition(x_inicio, y_inicio)
+    autobus.setVelocity(velocidad_x, 0)
+    controller.moveSprite(personaje, 0, 0)
+    scene.cameraFollowSprite(autobus)
+}
+
+crear_autobus()
 controller.A.onEvent(ControllerButtonEvent.Pressed, function on_a_pressed_bus() {
     
     if (en_bus) {
@@ -216,8 +238,8 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function on_a_pressed_bus() 
 game.onUpdate(function on_update_bus() {
     
     if (en_bus) {
-        if (autobus.x < -60 || autobus.x > scene.screenWidth() * 16 + 60 || autobus.y < -60 || autobus.y > scene.screenHeight() * 16 + 60) {
-            personaje.setPosition(autobus.x, autobus.y)
+        if (autobus.vx > 0 && autobus.x > scene.screenWidth() * 16 + 40 || autobus.vx < 0 && autobus.x < -40) {
+            personaje.setPosition(autobus.x - 20, autobus.y)
             controller.moveSprite(personaje, 100, 100)
             scene.cameraFollowSprite(personaje)
             sprites.destroy(autobus)
@@ -227,33 +249,6 @@ game.onUpdate(function on_update_bus() {
     }
     
 })
-function iniciar_ruta_autobus() {
-    let y: number;
-    let x: number;
-    
-    en_bus = true
-    let ruta = randint(1, 4)
-    if (ruta == 1) {
-        y = randint(20, scene.screenHeight() * 16 - 20)
-        autobus.setPosition(-40, y)
-        autobus.setVelocity(60, 0)
-    } else if (ruta == 2) {
-        y = randint(20, scene.screenHeight() * 16 - 20)
-        autobus.setPosition(scene.screenWidth() * 16 + 40, y)
-        autobus.setVelocity(-60, 0)
-    } else if (ruta == 3) {
-        x = randint(20, scene.screenWidth() * 16 - 20)
-        autobus.setPosition(x, -40)
-        autobus.setVelocity(0, 60)
-    } else if (ruta == 4) {
-        x = randint(20, scene.screenWidth() * 16 - 20)
-        autobus.setPosition(x, scene.screenHeight() * 16 + 40)
-        autobus.setVelocity(0, -60)
-    }
-    
-    scene.cameraFollowSprite(autobus)
-}
-
 let moviendo = false
 let index = 0
 let cofre_abierto = false
@@ -290,12 +285,11 @@ tiles.placeOnRandomTile(personaje, assets.tile`
 info.setScore(0)
 info.setLife(vida_jugador)
 spawnear_npcs()
-autobus = sprites.create(assets.image`
-    autobus
-`, SpriteKind.Player)
-controller.moveSprite(personaje, 0, 0)
+autobus = sprites.create(assets.image`autobus`, SpriteKind.Player)
 autobus.setPosition(-40, 40)
 autobus.setVelocity(60, 0)
+controller.moveSprite(personaje, 0, 0)
+//  Cámara sigue al autobús
 scene.cameraFollowSprite(autobus)
 game.onUpdate(function on_on_update() {
     
@@ -332,4 +326,3 @@ game.onUpdateInterval(1000, function on_update_interval() {
         
     }
 })
-iniciar_ruta_autobus()
