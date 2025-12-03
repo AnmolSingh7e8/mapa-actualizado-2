@@ -208,6 +208,57 @@ def on_down_pressed():
         True)
 controller.down.on_event(ControllerButtonEvent.PRESSED, on_down_pressed)
 
+def on_a_pressed_bus():
+    global en_bus
+    if en_bus:
+        personaje.set_position(autobus.x, autobus.y)
+        controller.move_sprite(personaje, 100, 100)
+        scene.camera_follow_sprite(personaje)
+        sprites.destroy(autobus, effects.trail, 500)
+        en_bus = False
+
+controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed_bus)
+
+def on_update_bus():
+    global en_bus
+
+    if en_bus:
+        if autobus.x < -60 or autobus.x > scene.screen_width() * 16 + 60 or autobus.y < -60 or autobus.y > scene.screen_height() * 16 + 60:
+            personaje.set_position(autobus.x, autobus.y)
+            controller.move_sprite(personaje, 100, 100)
+            scene.camera_follow_sprite(personaje)
+            sprites.destroy(autobus)
+            en_bus = False
+
+game.on_update(on_update_bus)
+
+def iniciar_ruta_autobus():
+    global autobus, en_bus
+
+    en_bus = True
+    ruta = randint(1, 4)
+    if ruta == 1:
+        y = randint(20, scene.screen_height() * 16 - 20)
+        autobus.set_position(-40, y)
+        autobus.set_velocity(60, 0)
+
+    elif ruta == 2:
+        y = randint(20, scene.screen_height() * 16 - 20)
+        autobus.set_position(scene.screen_width() * 16 + 40, y)
+        autobus.set_velocity(-60, 0)
+
+    elif ruta == 3:
+        x = randint(20, scene.screen_width() * 16 - 20)
+        autobus.set_position(x, -40)
+        autobus.set_velocity(0, 60)
+
+    elif ruta == 4:
+        x = randint(20, scene.screen_width() * 16 - 20)
+        autobus.set_position(x, scene.screen_height() * 16 + 40)
+        autobus.set_velocity(0, -60)
+
+    scene.camera_follow_sprite(autobus)
+
 moviendo = False
 index = 0
 cofre_abierto = False
@@ -228,6 +279,7 @@ centro_tormenta_x = 160
 centro_tormenta_y = 120
 tiempo_siguiente_cierre = 30
 en_bus = True
+autobus: Sprite = None
 ultima_direccion = "derecha"
 personaje = sprites.create(assets.image("""
     personaje
@@ -243,6 +295,15 @@ tiles.place_on_random_tile(personaje, assets.tile("""
 info.set_score(0)
 info.set_life(vida_jugador)
 spawnear_npcs()
+
+autobus = sprites.create(assets.image("""
+    autobus
+"""), SpriteKind.player)
+controller.move_sprite(personaje, 0, 0)
+autobus.set_position(-40, 40)
+autobus.set_velocity(60, 0)
+scene.camera_follow_sprite(autobus)
+
 
 def on_on_update():
     global moviendo, ultima_direccion
@@ -270,3 +331,5 @@ def on_update_interval():
             bala.set_kind(SpriteKind.BalaEnemiga)
             bala.lifespan = 3000
 game.on_update_interval(1000, on_update_interval)
+
+iniciar_ruta_autobus()

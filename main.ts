@@ -202,6 +202,58 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function on_down_pressed(
             animado_abajo
             `, 200, true)
 })
+controller.A.onEvent(ControllerButtonEvent.Pressed, function on_a_pressed_bus() {
+    
+    if (en_bus) {
+        personaje.setPosition(autobus.x, autobus.y)
+        controller.moveSprite(personaje, 100, 100)
+        scene.cameraFollowSprite(personaje)
+        sprites.destroy(autobus, effects.trail, 500)
+        en_bus = false
+    }
+    
+})
+game.onUpdate(function on_update_bus() {
+    
+    if (en_bus) {
+        if (autobus.x < -60 || autobus.x > scene.screenWidth() * 16 + 60 || autobus.y < -60 || autobus.y > scene.screenHeight() * 16 + 60) {
+            personaje.setPosition(autobus.x, autobus.y)
+            controller.moveSprite(personaje, 100, 100)
+            scene.cameraFollowSprite(personaje)
+            sprites.destroy(autobus)
+            en_bus = false
+        }
+        
+    }
+    
+})
+function iniciar_ruta_autobus() {
+    let y: number;
+    let x: number;
+    
+    en_bus = true
+    let ruta = randint(1, 4)
+    if (ruta == 1) {
+        y = randint(20, scene.screenHeight() * 16 - 20)
+        autobus.setPosition(-40, y)
+        autobus.setVelocity(60, 0)
+    } else if (ruta == 2) {
+        y = randint(20, scene.screenHeight() * 16 - 20)
+        autobus.setPosition(scene.screenWidth() * 16 + 40, y)
+        autobus.setVelocity(-60, 0)
+    } else if (ruta == 3) {
+        x = randint(20, scene.screenWidth() * 16 - 20)
+        autobus.setPosition(x, -40)
+        autobus.setVelocity(0, 60)
+    } else if (ruta == 4) {
+        x = randint(20, scene.screenWidth() * 16 - 20)
+        autobus.setPosition(x, scene.screenHeight() * 16 + 40)
+        autobus.setVelocity(0, -60)
+    }
+    
+    scene.cameraFollowSprite(autobus)
+}
+
 let moviendo = false
 let index = 0
 let cofre_abierto = false
@@ -222,6 +274,7 @@ let centro_tormenta_x = 160
 let centro_tormenta_y = 120
 let tiempo_siguiente_cierre = 30
 let en_bus = true
+let autobus : Sprite = null
 ultima_direccion = "derecha"
 personaje = sprites.create(assets.image`
     personaje
@@ -237,6 +290,13 @@ tiles.placeOnRandomTile(personaje, assets.tile`
 info.setScore(0)
 info.setLife(vida_jugador)
 spawnear_npcs()
+autobus = sprites.create(assets.image`
+    autobus
+`, SpriteKind.Player)
+controller.moveSprite(personaje, 0, 0)
+autobus.setPosition(-40, 40)
+autobus.setVelocity(60, 0)
+scene.cameraFollowSprite(autobus)
 game.onUpdate(function on_on_update() {
     
     moviendo = controller.down.isPressed() || (controller.left.isPressed() || (controller.up.isPressed() || controller.right.isPressed()))
@@ -272,3 +332,4 @@ game.onUpdateInterval(1000, function on_update_interval() {
         
     }
 })
+iniciar_ruta_autobus()
