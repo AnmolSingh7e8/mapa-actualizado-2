@@ -202,31 +202,6 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function on_down_pressed(
             animado_abajo
             `, 200, true)
 })
-controller.A.onEvent(ControllerButtonEvent.Pressed, function on_a_pressed_bus() {
-    
-    if (en_bus) {
-        personaje.setPosition(autobus.x, autobus.y)
-        controller.moveSprite(personaje, 100, 100)
-        scene.cameraFollowSprite(personaje)
-        sprites.destroy(autobus, effects.trail, 500)
-        en_bus = false
-    }
-    
-})
-game.onUpdate(function on_update_bus() {
-    
-    if (en_bus) {
-        if (autobus.x > scene.screenWidth() * 16 + 40) {
-            personaje.setPosition(autobus.x - 20, autobus.y)
-            controller.moveSprite(personaje, 100, 100)
-            scene.cameraFollowSprite(personaje)
-            sprites.destroy(autobus)
-            en_bus = false
-        }
-        
-    }
-    
-})
 let moviendo = false
 let index = 0
 let cofre_abierto = false
@@ -246,7 +221,6 @@ let radio_tormenta = 200
 let centro_tormenta_x = 160
 let centro_tormenta_y = 120
 let tiempo_siguiente_cierre = 30
-let autobus : Sprite = null
 let en_bus = true
 ultima_direccion = "derecha"
 personaje = sprites.create(assets.image`
@@ -260,11 +234,6 @@ tiles.setCurrentTilemap(tilemap`
 tiles.placeOnRandomTile(personaje, assets.tile`
     myTile8
     `)
-autobus = sprites.create(assets.image`autobus`, SpriteKind.Player)
-controller.moveSprite(personaje, 0, 0)
-autobus.setPosition(-40, 40)
-autobus.setVelocity(60, 0)
-scene.cameraFollowSprite(autobus)
 info.setScore(0)
 info.setLife(vida_jugador)
 spawnear_npcs()
