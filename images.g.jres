@@ -39,6 +39,21 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "proyectil2"
     },
+    "image9": {
+        "data": "hwQQABAAAAAAAADQDQAAAAAAAP//AAAAAADQz/wNAAAAANDP/A0AAAAA0M/8DQAAAADQz/wNAAAAANDP/A0AAAAA0M/8DQAAAADQz/wNAAAAANDP/A0AAAAA0M/8DQAAAADQz/wNAAAAANDP/A0AAAAA0M/8DQAAAAAA//8AAAAAAADQDQAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "polvorin1"
+    },
+    "image10": {
+        "data": "hwQQABAAAAAAAADQDQAAAAAAAP//AAAAAADQb/YNAAAAANBv9g0AAAAA0G/2DQAAAADQb/YNAAAAANBv9g0AAAAA0G/2DQAAAADQb/YNAAAAANBv9g0AAAAA0G/2DQAAAADQb/YNAAAAANBv9g0AAAAA0G/2DQAAAAAA//8AAAAAAADQDQAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "polvorin3"
+    },
+    "image11": {
+        "data": "hwQQABAAAAAAAADQDQAAAAAAAP//AAAAAADQv/sNAAAAANC/+w0AAAAA0L/7DQAAAADQv/sNAAAAANC/+w0AAAAA0L/7DQAAAADQv/sNAAAAANC/+w0AAAAA0L/7DQAAAADQv/sNAAAAANC/+w0AAAAA0L/7DQAAAAAA//8AAAAAAADQDQAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "polvorin2"
+    },
     "anim1": {
         "namespace": "myAnimations",
         "id": "anim1",

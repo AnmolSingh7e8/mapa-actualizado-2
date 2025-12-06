@@ -33,7 +33,7 @@ def on_b_pressed():
     Abrir_Cofre()
 controller.B.on_event(ControllerButtonEvent.PRESSED, on_b_pressed)
 
-def Abrir_Cofre2():
+def Abrir_Cofre():
     global ubicacion, col, fila, cofre_abierto, municion_actual
     ubicacion = personaje.tilemap_location()
     col = ubicacion.column
@@ -72,23 +72,12 @@ def Abrir_Cofre2():
                 cofre_arriba
                 """))
         cofre_abierto = True
-    if cofre_abierto:
-        municion_actual += 30
-        game.splash("Cofre abierto!", "+30 municion")
-        cofre_abierto = False
-    else:
-        game.splash("No hay cofre")
-def Abrir_Cofre():
-    global ubicacion, col, fila, cofre_abierto, municion_actual
-    ubicacion = personaje.tilemap_location()
-    col = ubicacion.column
-    fila = ubicacion.row
     if ultima_direccion == "arriba" and personaje.tile_kind_at(TileDirection.TOP, assets.tile("""
         myTile23
         """)):
         tiles.set_tile_at(tiles.get_tile_location(col, fila - 1),
             assets.tile("""
-                cofre_arriba
+                cofre_abierto_arriba
                 """))
         cofre_abierto = True
     elif ultima_direccion == "abajo" and personaje.tile_kind_at(TileDirection.BOTTOM, assets.tile("""
@@ -96,7 +85,7 @@ def Abrir_Cofre():
         """)):
         tiles.set_tile_at(tiles.get_tile_location(col, fila + 1),
             assets.tile("""
-                cofre_arriba
+                cofre_abierto_arriba
                 """))
         cofre_abierto = True
     elif ultima_direccion == "izquierda" and personaje.tile_kind_at(TileDirection.LEFT, assets.tile("""
@@ -104,7 +93,7 @@ def Abrir_Cofre():
         """)):
         tiles.set_tile_at(tiles.get_tile_location(col - 1, fila),
             assets.tile("""
-                cofre_arriba
+                cofre_abierto_arriba
                 """))
         cofre_abierto = True
     elif ultima_direccion == "derecha" and personaje.tile_kind_at(TileDirection.RIGHT, assets.tile("""
@@ -112,7 +101,7 @@ def Abrir_Cofre():
         """)):
         tiles.set_tile_at(tiles.get_tile_location(col + 1, fila),
             assets.tile("""
-                cofre_arriba
+                cofre_abierto_arriba
                 """))
         cofre_abierto = True
     if cofre_abierto:
@@ -198,6 +187,18 @@ def on_right_pressed():
         True)
 controller.right.on_event(ControllerButtonEvent.PRESSED, on_right_pressed)
 
+def Abrir_Cofre3():
+    global ubicacion, col, fila, municion_actual, cofre_abierto
+    ubicacion = personaje.tilemap_location()
+    col = ubicacion.column
+    fila = ubicacion.row
+    if cofre_abierto:
+        municion_actual += 30
+        game.splash("Cofre abierto!", "+30 municion")
+        cofre_abierto = False
+    else:
+        game.splash("No hay cofre")
+
 def on_down_pressed():
     animation.run_image_animation(personaje,
         assets.animation("""
@@ -206,6 +207,56 @@ def on_down_pressed():
         200,
         True)
 controller.down.on_event(ControllerButtonEvent.PRESSED, on_down_pressed)
+
+def crear_autobus():
+    global autobus, en_bus
+    en_bus = True
+
+    autobus = sprites.create(assets.image("autobus"), SpriteKind.player)
+
+    if randint(0, 1) == 0:
+        x_inicio = -40
+        velocidad_x = 60
+    else:
+        x_inicio = scene.screen_width() * 16 + 40
+        velocidad_x = -60
+
+    y_inicio = randint(20, scene.screen_height() * 16 - 20)
+
+    autobus.set_position(x_inicio, y_inicio)
+    autobus.set_velocity(velocidad_x, 0)
+
+    controller.move_sprite(personaje, 0, 0)
+
+    scene.camera_follow_sprite(autobus)
+
+crear_autobus()
+
+def on_a_pressed_bus():
+    global en_bus
+    if en_bus:
+        personaje.set_position(autobus.x, autobus.y)
+        controller.move_sprite(personaje, 100, 100)
+        scene.camera_follow_sprite(personaje)
+        sprites.destroy(autobus, effects.trail, 500)
+        en_bus = False
+
+controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed_bus)
+
+def on_update_bus():
+    global en_bus
+    if en_bus:
+        if (autobus.vx > 0 and autobus.x > scene.screen_width() * 16 + 40) or \
+           (autobus.vx < 0 and autobus.x < -40):
+            personaje.set_position(autobus.x - 20, autobus.y)
+            controller.move_sprite(personaje, 100, 100)
+            scene.camera_follow_sprite(personaje)
+            sprites.destroy(autobus)
+            en_bus = False
+
+game.on_update(on_update_bus)
+
+
 
 moviendo = False
 index = 0
@@ -218,8 +269,8 @@ kills = 0
 personaje: Sprite = None
 ultima_direccion = ""
 municion_actual = 0
-arma_actual = 0
 partida_activa = False
+arma_actual = 0
 vida_jugador = 100
 municion_actual = 150
 radio_tormenta = 200
@@ -227,6 +278,7 @@ centro_tormenta_x = 160
 centro_tormenta_y = 120
 tiempo_siguiente_cierre = 30
 en_bus = True
+autobus: Sprite = None
 ultima_direccion = "derecha"
 personaje = sprites.create(assets.image("""
     personaje
@@ -242,6 +294,14 @@ tiles.place_on_random_tile(personaje, assets.tile("""
 info.set_score(0)
 info.set_life(vida_jugador)
 spawnear_npcs()
+
+autobus = sprites.create(assets.image("""autobus"""), SpriteKind.player)
+autobus.set_position(-40, 40)  
+autobus.set_velocity(60, 0)    
+controller.move_sprite(personaje, 0, 0)
+
+# Cámara sigue al autobús
+scene.camera_follow_sprite(autobus)
 
 def on_on_update():
     global moviendo, ultima_direccion
@@ -262,6 +322,7 @@ def on_update_interval():
     for enemigo22 in sprites.all_of_kind(SpriteKind.enemy):
         if randint(0, 100) < 15:
             vx = personaje.x - enemigo22.x
+            vy = 0
             bala = sprites.create_projectile_from_sprite(assets.image("""
                 proyectil1
                 """), enemigo22, vx, vy)

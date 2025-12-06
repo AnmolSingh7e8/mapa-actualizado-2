@@ -279,6 +279,63 @@ e 5 4 4 5 5 5 5 5 5 4 4 5 e . .
 . . . . . . . . b . . . . . . . 
 . . . . . . . . . . . . . . . . 
 `;
+            case "image9":
+            case "polvorin1":return img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . d d d d d d d d d d d d . . 
+. f f f f f f f f f f f f f f . 
+d f c c c c c c c c c c c c f d 
+d f c c c c c c c c c c c c f d 
+. f f f f f f f f f f f f f f . 
+. . d d d d d d d d d d d d . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`;
+            case "image10":
+            case "polvorin3":return img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . d d d d d d d d d d d d . . 
+. f f f f f f f f f f f f f f . 
+d f 6 6 6 6 6 6 6 6 6 6 6 6 f d 
+d f 6 6 6 6 6 6 6 6 6 6 6 6 f d 
+. f f f f f f f f f f f f f f . 
+. . d d d d d d d d d d d d . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`;
+            case "image11":
+            case "polvorin2":return img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . d d d d d d d d d d d d . . 
+. f f f f f f f f f f f f f f . 
+d f b b b b b b b b b b b b f d 
+d f b b b b b b b b b b b b f d 
+. f f f f f f f f f f f f f f . 
+. . d d d d d d d d d d d d . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`;
         }
         return null;
     })
